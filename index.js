@@ -34,13 +34,9 @@ app.post('/createnote',async (req,res)=>{
 
 
 app.get('/allnotes',async (req,res)=>{
-    res.status(200).json([{
-        title: "Shopping list",
-        content: "Samosa , Dosa"
-    },
-    {
-        title:"Shopping List 2",
-        content: "New Samosa, New Dosa"}])
+    const filter = {}
+    const All = await note.find(filter);
+    res.status(200).json(All);
 })
 
 app.listen(process.env.PORT,(req,res)=>{
