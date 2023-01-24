@@ -20,14 +20,14 @@ app.post('/createnote',async (req,res)=>{
             title,content,isCompleted
         })
       newnote.save()
-       res.send("Notes saved");
+       res.status(200).send("Note saved");
     }
     else{
         res.status(400).send("All the fields are required");
     }
     }
     catch(error){
-        console.log(error)
+        res.status(400).send(error);
     }
 
 })
