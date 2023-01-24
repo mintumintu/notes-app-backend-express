@@ -3,10 +3,10 @@ const notes = require('./models/notes');
 require('dotenv').config();
 require('./mongoose').connect();
 const note = require('./models/notes')
-
-
+const cors = require('cors')
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.get('/',(req,res)=>{
     res.status(200).send("<h1>Welcome</h1>");
@@ -14,10 +14,10 @@ app.get('/',(req,res)=>{
 
 app.post('/createnote',async (req,res)=>{
     try{
-        const {owner, title,content,isCompleted} = req.body;
-    if(owner && title && content && isCompleted){
+        const {title,content,isCompleted} = req.body;
+    if(title && content && isCompleted){
      const newnote=  await note.create({
-            owner,title,content,isCompleted
+            title,content,isCompleted
         })
       newnote.save()
        res.send("Notes saved");
@@ -32,10 +32,15 @@ app.post('/createnote',async (req,res)=>{
 
 })
 
-app.post('/notes',async (req,res)=>{
-    const {owner}= req.body
-    const foundnote = await note.find({owner})
-    res.status(200).send(foundnote)
+
+app.get('/allnotes',async (req,res)=>{
+    res.status(200).json([{
+        title: "Shopping list",
+        content: "Samosa , Dosa"
+    },
+    {
+        title:"Shopping List 2",
+        content: "New Samosa, New Dosa"}])
 })
 
 app.listen(process.env.PORT,(req,res)=>{
