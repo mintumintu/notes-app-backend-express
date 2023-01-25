@@ -31,7 +31,21 @@ app.post('/createnote',async (req,res)=>{
     }
 
 })
-
+app.delete('/delete/:id', (req, res) => {
+    note.deleteOne({_id: req.params.id}).then(
+      () => {
+        res.status(200).json({
+          message: 'Deleted!'
+        });
+      }
+    ).catch(
+      (error) => {
+        res.status(400).json({
+          error: error
+        });
+      }
+    );
+  });
 
 app.get('/allnotes',async (req,res)=>{
     const filter = {}
